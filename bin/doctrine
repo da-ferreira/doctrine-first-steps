@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+<?php
+
+use Alura\Doctrine\Helper\EntityManagerCreator;
+use Doctrine\ORM\Tools\Console\ConsoleRunner;
+use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$entityManager = EntityManagerCreator::createEntityManager();
+
+ConsoleRunner::run(new SingleManagerProvider($entityManager));
