@@ -13,8 +13,16 @@ class StudentRepository extends EntityRepository
      */
     public function show(): array
     {
-        $dql = 'SELECT s, p, c from Alura\\Doctrine\\Entity\\Student s LEFT JOIN s.phones p LEFT JOIN s.courses c';
+        // Versão com DQL:
+        // $dql = 'SELECT s, p, c from Alura\\Doctrine\\Entity\\Student s LEFT JOIN s.phones p LEFT JOIN s.courses c';
+        // return $this->getEntityManager()->createQuery($dql)->getResult();
 
-        return $this->getEntityManager()->createQuery($dql)->getResult();
+        // Versão com QueryBuilder:
+        return $this->createQueryBuilder('student')
+            ->leftJoin('student.phones', 'phones')
+            ->leftJoin('student.courses', 'courses')
+            ->addSelect(['student', 'phones', 'courses'])
+            ->getQuery()
+            ->getResult();
     }
 }
