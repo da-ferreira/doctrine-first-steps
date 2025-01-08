@@ -23,6 +23,7 @@ class StudentRepository extends EntityRepository
             ->leftJoin('student.courses', 'courses')
             ->addSelect(['student', 'phones', 'courses'])
             ->getQuery()
+            ->enableResultCache(3600)
             ->getResult();
     }
 }
