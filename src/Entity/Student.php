@@ -2,6 +2,7 @@
 
 namespace Alura\Doctrine\Entity;
 
+use Alura\Doctrine\Repository\StudentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
@@ -12,7 +13,7 @@ use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 
-#[Entity, Table(name: 'students')]
+#[Entity(repositoryClass: StudentRepository::class), Table(name: 'students')]
 class Student
 {
     #[Id, GeneratedValue, Column]
