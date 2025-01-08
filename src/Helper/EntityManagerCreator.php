@@ -9,6 +9,7 @@ use Doctrine\ORM\ORMSetup;
 use Symfony\Component\Cache\Adapter\PhpFilesAdapter;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Dotenv\Dotenv;
 
 class EntityManagerCreator
 {
@@ -31,9 +32,16 @@ class EntityManagerCreator
         $config->setQueryCache(new PhpFilesAdapter(namespace: 'query_cache', directory: $cacheDirectory));
         $config->setResultCache(new PhpFilesAdapter(namespace: 'result_cache', directory: $cacheDirectory));
 
+        $dotenv = new Dotenv();
+        $dotenv->load(__DIR__ . '/../../.env');
+
         $connection = DriverManager::getConnection([
-            'driver' => 'pdo_sqlite',
-            'path' => __DIR__ . '/../../db.sqlite',
+            'driver' => 'pdo_mysql',
+            'host' => $_ENV['DB_HOST'],
+            'port' => $_ENV['DB_PORT'],
+            'dbname' => $_ENV['DB_NAME'],
+            'user' => $_ENV['DB_USER'],
+            'password' => $_ENV['DB_PASSWORD']
         ], $config);
 
         return new EntityManager($connection, $config);
